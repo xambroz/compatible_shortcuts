@@ -4,6 +4,7 @@ people who are switching Linux/Windows environment often to be able
 to get expectable results for the keyboard shorcuts pressed.
 
 Related information
+
 Gnome
 https://help.gnome.org/users/gnome-help/stable/shell-keyboard-shortcuts.html.en
 
