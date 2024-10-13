@@ -1,6 +1,7 @@
 #!/bin/bash
 LICENSE="MIT"
-LICENSE-TEXT="MIT License
+LICENSE_TEXT='
+MIT License
 
 Copyright (c) 2024 Michal Ambroz
 
@@ -21,10 +22,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-"
+'
 
 # Compare current settings with default
-# gsettings list-recursively | grep -E 'keybindings|media-keys' > gnome_keybindings.txt
+# gsettings list-recursively | grep -E 'keybindings|media-keys' > current_keybindings.txt
 
 
 gsettings set org.gnome.shell.keybindings screenshot "['<Shift>Print']"
@@ -40,8 +41,8 @@ gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Super>Above_Tab'
 gsettings set org.gnome.desktop.wm.keybindings switch-group-backward "['<Shift><Super>Above_Tab']"
 
 # Cycle through windows of one application group - on one virtual desktop workspace
-gsettings set org.gnome.desktop.wm.keybindings cycle-group "['<Alt>grave']"
-gsettings set org.gnome.desktop.wm.keybindings cycle-group-backward "['<Shift><Alt>grave']"
+gsettings set org.gnome.desktop.wm.keybindings cycle-group "['<Alt>F6','<Alt>grave']"
+gsettings set org.gnome.desktop.wm.keybindings cycle-group-backward "['<Shift><Alt>F6','<Shift><Alt>grave']"
 
 # Cycle between application groups
 gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Super>Tab']"
@@ -52,18 +53,20 @@ gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "['<
 gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Super>space', 'XF86Keyboard']"
 
 # Workspace switching, win compatibility <Super><Control>Left/Right
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Primary><Alt>Left','<Super><Control>Left']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Primary><Alt>Right','<Super><Control>Right']"
+# Gnome defaults - '<Super>Page_Up/Down', '<Super><Alt>Left/Right', '<Control><Alt>Left/Right'
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Super>Page_Up', '<Super><Alt>Left', '<Primary><Alt>Left','<Super><Control>Left']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Super>Page_Down', '<Super><Alt>Right', '<Primary><Alt>Right','<Super><Control>Right']"
 
 
 # Window placement
-# Win+U ... Maximize the window
-gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Primary><Alt>Up', '<Super>Up']"
-# toggle doesn't work if it collides with maximize
+# Win+Up ... Maximize the window
+gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Primary><Alt>Up', '<Super>Up', '<Super>KP_Up']"
+# toggle doesn't work if it collides with maximize - GNOME default
 gsettings set org.gnome.desktop.wm.keybindings maximize "[]"
 
 # Win+D ... Remove current app from screen or minimize the desktop window.
-gsettings set org.gnome.desktop.wm.keybindings minimize "['<Super>Down']"
+# there is no toggle-minimized in Gnome
+gsettings set org.gnome.desktop.wm.keybindings minimize "['<Super>h','<Super>Down', '<Super>KP_Down']"
 
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super>F11']"
 
@@ -75,7 +78,7 @@ gsettings set org.gnome.mutter.keybindings toggle-tiled-right "['<Super>Right', 
 
 # Screensaver lockout
 # Win+L ... Lock your PC or switch accounts.
-gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control><Alt>l','<Super>l']" #Default is Super+l only
+gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Super>l','<Control><Alt>l']" #Default is Super+l only
 
 
 # Win compatibility settings
@@ -89,7 +92,7 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys home-static "['XF86Ex
 
 # Win+I ... settings
 gsettings set org.gnome.settings-daemon.plugins.media-keys control-center "['<Control><Alt>Return','<Super>i']"
-gsettings set org.gnome.shell.keybindings toggle-quick-settings "['<Super><Shift>i']"
+gsettings set org.gnome.shell.keybindings toggle-quick-settings "['<Super>s','<Super><Shift>i']"
 
 # Win+D ... display / hide desktop
 # Win+M ... minimize all windows
@@ -125,11 +128,27 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys volume-down-static "[
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Control><Alt>KP_Up']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up-static "['XF86AudioRaiseVolume', '<Ctrl>XF86AudioRaiseVolume']"
 
-gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Control><Alt>KP_Home']"
+# Mute / Enable sound
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Control><Alt>KP_Delete']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute-static "['XF86AudioMute']"
 
-gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Control><Alt>KP_End']"
+# Mute / Enable microphone
+gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Control><Alt>KP_Insert']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute-static "['XF86AudioMicMute']"
+
+# Play
+gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Control><Alt>KP_Begin']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys pause-static "['XF86AudioPause']"
+
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Control><Alt>KP_Left']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys previous-static "['XF86AudioPrev', '<Ctrl>XF86AudioPrev']"
+
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Control><Alt>KP_Right']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys next-static "['XF86AudioNext', '<Ctrl>XF86AudioNext']"
+
+
 
 
 
@@ -150,4 +169,26 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up-quiet-stati
 
 
 
-                                                                                          
+# RFKILL
+# gsettings set org.gnome.settings-daemon.plugins.media-keys rfkill "['']"
+# gsettings set org.gnome.settings-daemon.plugins.media-keys rfkill-bluetooth "['']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys rfkill-bluetooth-static "['XF86Bluetooth']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys rfkill-static "['XF86WLAN', 'XF86UWB', 'XF86RFKill']"
+
+# Terminal
+# Custom bindings can trigger always on single shortcut key
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal1/ binding "'<Super>t'"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal1/ command "gnome-terminal"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal1/ name "Gnome_Terminal_Super"
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal2/ binding "'<Ctrl><Alt>t'"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal2/ command "gnome-terminal"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal2/ name "Gnome_Terminal_CtrlAlt"
+
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+ "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal1/',\
+  '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal2/'
+]"
+
+
